@@ -1,4 +1,5 @@
 import Carousel from 'react-bootstrap/Carousel';
+import img1 from "./Carousel-imgs/img1.svg";
 
 function DarkVariantExample() {
   return (
@@ -6,7 +7,7 @@ function DarkVariantExample() {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="../../public/carousel_img_1.png"
+          src={img1}
           alt="First slide"
         />
         <Carousel.Caption>
