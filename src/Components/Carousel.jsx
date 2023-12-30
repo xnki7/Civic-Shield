@@ -3,7 +3,7 @@ import img1 from "./Carousel-imgs/img1.svg";
 
 function DarkVariantExample() {
   return (
-    <Carousel className='min-h-[400px]' data-bs-theme="dark">
+    <Carousel className='' data-bs-theme="dark">
       <Carousel.Item>
         <img
           className="d-block w-100"
