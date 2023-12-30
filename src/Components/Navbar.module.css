@@ -7,29 +7,23 @@
 
 
  .menucontent {
-     width: 80%;
-     z-index: 7;
-     height: 900px;
-     background-color: #020B2D;
-     padding: 1rem;
+    width: 40%;
+    z-index: 7;
+    height: 40rem;
+    background-color: #020B2D;
     border-bottom-left-radius: 14px;
     transition: 2s ease-in-out ;
-        
+    display: flex;
+    align-items: center;
+    justify-content: center;
  }
 
- .log {
-     z-index: 8;
-     position: absolute;
-     top: 5px;
-     right: 25%;
-     width: 100px;
- }
  .close{
-    position: absolute;
+    position: relative;
     z-index: 8;
     color: white;
-    top: 10px;
-    right: 75;
+    top: 0.5rem;
+    right: 33%;
     font-size: 2rem;
     cursor: pointer;
  }
@@ -37,14 +31,13 @@
  .list{
     z-index: 8;
     position: absolute;
-    top: 50px;
-    right: 25%;
+    top: 0rem;
     color:white;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap:2rem;
     margin-top: 80px;
-    font-size: 1.5rem;
     li{
         cursor: pointer;
     }
@@ -58,7 +51,7 @@
         display: block;
         color: white;
         margin-right: 30px;
-        font-size: 30px;
+        font-size: 2rem;
     }
     .function{
         display: none;
