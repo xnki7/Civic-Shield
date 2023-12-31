@@ -1,9 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-contract ProfileManager{
-
-    struct Profile{
+contract ProfileManager {
+    struct Profile {
         string name;
         string IdNumber;
         string designation;
@@ -22,18 +21,12 @@ contract ProfileManager{
         string memory _profileImgCid
     ) public {
         require(profileExists[msg.sender] == false, "Profile already exists.");
-        addressToProfile[msg.sender] = Profile(
-            _name,
-            _IdNumber,
-            _designation,
-            _profileImgCid
-        );
+        addressToProfile[msg.sender] = Profile(_name, _IdNumber, _designation, _profileImgCid);
         profileExists[msg.sender] = true;
         emit ProfileCreated(msg.sender, _name, _IdNumber, _designation, _profileImgCid);
     }
 
-    function getProfile(address profileAddress) public view returns(Profile memory){
+    function getProfile(address profileAddress) public view returns (Profile memory) {
         return addressToProfile[profileAddress];
     }
-
 }
