@@ -13,6 +13,8 @@ contract ProfileManager{
     mapping(address => bool) public profileExists;
     mapping(address => Profile) public addressToProfile;
 
+    event ProfileCreated(address indexed user, string name, string IdNumber, string designation, string profileImgCid);
+
     function createProfile(
         string memory _name,
         string memory _IdNumber,
@@ -27,6 +29,7 @@ contract ProfileManager{
             _profileImgCid
         );
         profileExists[msg.sender] = true;
+        emit ProfileCreated(msg.sender, _name, _IdNumber, _designation, _profileImgCid);
     }
 
     function getProfile(address profileAddress) public view returns(Profile memory){
