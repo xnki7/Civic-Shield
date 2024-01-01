@@ -1,17 +1,13 @@
-import Carousel from './Components/Carousel'
-import './App.css'
-import Navbar from './Components/Navbar'
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import HomePage from "./Pages/HomePage";
 
 function App() {
-
   return (
-    <>
-      <Navbar/>
-      <Carousel/>
-    </>
-  )
+    <div className="App">
+      <HomePage />
+    </div>
+  );
 }
 
-export default App
+export default App;

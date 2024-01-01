@@ -1,9 +1,12 @@
 import React from 'react'
+import Navbar from "../Components/Navbar"
+import Carousel from "../Components/Carousel"
 
 const HomePage = () => {
   return (
     <div className='HomePage'>
-      Homepage
+      <Navbar/>
+      <Carousel/>
     </div>
   )
 }
