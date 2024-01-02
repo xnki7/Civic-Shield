@@ -4,6 +4,8 @@ import { useAccount } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Styles from "./LoginSignUp.module.css";
+import Navbar from "../Components/Navbar";
 
 const LoginSignUp = ({
   contractProfileManager,
@@ -13,6 +15,8 @@ const LoginSignUp = ({
   isConnected,
   isProfileCreated,
 }) => {
+  const [imagePreview, setImagePreview] = useState(null);
+
   const [role, setRole] = useState("");
   const [image, setImage] = useState(null);
   const [district, setDistrict] = useState("");
@@ -46,6 +50,8 @@ const LoginSignUp = ({
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     setImage(file);
+    const imageUrl = URL.createObjectURL(file);
+    setImagePreview(imageUrl);
     console.log(file);
   };
 
@@ -153,130 +159,167 @@ const LoginSignUp = ({
         return -1;
     }
   };
-
+  // ************************************************************************************************************
   return (
     <div className="LoginSignUp">
-      {isProfileCreated == false && isConnected ? (
-        <form onSubmit={handleFormSubmit}>
-          <label>
-            Profile Picture:
-            <input
-              type="file"
-              name="profilePicture"
-              accept="image/*"
-              onChange={handleImageUpload}
-            />
-          </label>
-          <label>
-            Full Name:
-            <input
-              type="text"
-              name="fullName"
-              onChange={handleFullNameChange}
-            />
-          </label>
-          <label>
-            Role:
-            <select name="role" onChange={handleRoleChange}>
-              <option value="">Select a role</option>
-              <option value="stateGovernment">State Government</option>
-              <option value="civilian">Civilian</option>
-              <option value="policeStation">District's Police Station</option>
-              <option value="policeOfficial">Police Official</option>
-            </select>
-          </label>
-          {role === "civilian" && (
-            <>
-              <label>
-                Aadhar ID:
-                <input
+      <Navbar />
+      <div className={Styles.container}>
+        {isProfileCreated == false && isConnected ? (
+          <form className={Styles.form} onSubmit={handleFormSubmit}>
+            <div className=" flex flex-col w-[40%] ">
+              <div className=" min-w-[80%] min-h-[360px] m-auto text-center border-[white] border-solid border-[1px] pt-4  rounded-2xl bg-[#D9D9D9] " >
+                <label>
+                {/* Profile Picture: */}
+                {imagePreview ? (
+                  
+                  <>
+                  <img 
+                className="rounded-3xl max-w-[220px] h-[250px] m-auto "
+                    src={imagePreview}
+                    alt="Image Preview"
+                    // style={{ maxWidth: "100%", maxHeight: "200px" }}
+                  />
+                  <input className="cursor-pointer mt-4 m-auto "
+                    type="file"
+                    name="profilePicture"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  /></>
+
+                ) : (
+                  <input className="cursor-pointer mt-[100px] ml-[50px] "
+                    type="file"
+                    name="profilePicture"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
+                )}
+              </label>
+              </div>
+             
+            </div>
+
+            <div className="flex flex-col w-[40%] ">
+              <label className="text-[white]" >
+ 
+                <input className="text-[white] bg-[#020B2D] border-b-2 my-5 w-[70%]"  placeholder="Full Name"
                   type="text"
-                  name="aadharId"
-                  onChange={handleIdNumberChange}
+                  name="fullName"
+                  onChange={handleFullNameChange}
                 />
               </label>
               <label>
-                District:
-                <select name="district" onChange={handleDistrictChange}>
-                  <option value="">Select a District</option>
-                  <option value="District1">District 1</option>
-                  <option value="District2">District 2</option>
+                Role
+                <select className="bg-[#D9D9D9] rounded-lg ml-3 p-1 w-[60%] " name="role" onChange={handleRoleChange}>
+                  <option value="">Select a role</option>
+                  <option value="stateGovernment">State Government</option>
+                  <option value="civilian">Civilian</option>
+                  <option value="policeStation">
+                    District's Police Station
+                  </option>
+                  <option value="policeOfficial">Police Official</option>
                 </select>
               </label>
-            </>
-          )}
-          {(role === "policeStation" || role === "policeOfficial") && (
-            <>
-              <label>
-                District:
-                <select name="district" onChange={handleDesignationChange}>
-                  <option value="">Select a District</option>
-                  <option value="District1">District 1</option>
-                  <option value="District2">District 2</option>
-                </select>
-              </label>
-            </>
-          )}
-          {role === "policeStation" && (
-            <label>
-              Station Name:
-              <input type="text" name="stationName" />
-            </label>
-          )}
-          {role === "policeOfficial" && (
-            <>
-              <label>
-                Official's Designation:
-                <select name="designation" onChange={handleDesignationChange}>
-                  <option value="">Select Designation</option>
-                  <option value="constable">Constable</option>
-                  <option value="headConstable">Head Constable</option>
-                  <option value="assistantSubInspector">
-                    Assistant Sub-Inspector
-                  </option>
-                  <option value="subInspector">Sub-Inspector</option>
-                  <option value="inspector">Inspector</option>
-                  <option value="deputySuperintendentOfPolice">
-                    Deputy Superintendent of Police (Dy. SP)
-                  </option>
-                  <option value="additionalSuperintendentOfPolice">
-                    Additional Superintendent of Police
-                  </option>
-                  <option value="superintendentOfPolice">
-                    Superintendent of Police
-                  </option>
-                  <option value="seniorSuperintendentOfPolice">
-                    Senior Superintendent of Police
-                  </option>
-                  <option value="deputyInspectorGeneralOfPolice">
-                    Deputy Inspector General of Police
-                  </option>
-                  <option value="inspectorGeneralOfPolice">
-                    Inspector-General of Police (IGP)
-                  </option>
-                  <option value="additionalDirectorGeneralOfPolice">
-                    Additional Director General of Police (ADG)
-                  </option>
-                  <option value="directorGeneralOfPolice">
-                    Director-General of Police (DGP)
-                  </option>
-                </select>
-              </label>
-              <label>
-                ID No.
-                <input
-                  type="text"
-                  name="idNo"
-                  onChange={handleIdNumberChange}
-                />
-              </label>
-            </>
-          )}
-          <button type="submit">Submit</button>
-        </form>
-      ) : (
-        <ConnectButton />
-      )}
+
+              {role === "civilian" && (
+                <>
+                  <label>
+                    
+                    <input className="border-b-2 bg-[#020B2D] my-5 w-[70%] " placeholder="Adhaar ID"
+                      type="text"
+                      name="aadharId"
+                      onChange={handleIdNumberChange}
+                    />
+                  </label>
+                  <label>
+                    District:
+                    <select name="district" onChange={handleDistrictChange}>
+                      <option value="">Select a District</option>
+                      <option value="District1">District 1</option>
+                      <option value="District2">District 2</option>
+                    </select>
+                  </label>
+                </>
+              )}
+              {(role === "policeStation" || role === "policeOfficial") && (
+                <>
+                  <label>
+                    District:
+                    <select name="district" onChange={handleDesignationChange}>
+                      <option value="">Select a District</option>
+                      <option value="District1">District 1</option>
+                      <option value="District2">District 2</option>
+                    </select>
+                  </label>
+                </>
+              )}
+              {role === "policeStation" && (
+                <label>
+                  Station Name:
+                  <input type="text" name="stationName" />
+                </label>
+              )}
+              {role === "policeOfficial" && (
+                <>
+                  <label>
+                    Official's Designation:
+                    <select
+                      name="designation"
+                      onChange={handleDesignationChange}
+                    >
+                      <option value="">Select Designation</option>
+                      <option value="constable">Constable</option>
+                      <option value="headConstable">Head Constable</option>
+                      <option value="assistantSubInspector">
+                        Assistant Sub-Inspector
+                      </option>
+                      <option value="subInspector">Sub-Inspector</option>
+                      <option value="inspector">Inspector</option>
+                      <option value="deputySuperintendentOfPolice">
+                        Deputy Superintendent of Police (Dy. SP)
+                      </option>
+                      <option value="additionalSuperintendentOfPolice">
+                        Additional Superintendent of Police
+                      </option>
+                      <option value="superintendentOfPolice">
+                        Superintendent of Police
+                      </option>
+                      <option value="seniorSuperintendentOfPolice">
+                        Senior Superintendent of Police
+                      </option>
+                      <option value="deputyInspectorGeneralOfPolice">
+                        Deputy Inspector General of Police
+                      </option>
+                      <option value="inspectorGeneralOfPolice">
+                        Inspector-General of Police (IGP)
+                      </option>
+                      <option value="additionalDirectorGeneralOfPolice">
+                        Additional Director General of Police (ADG)
+                      </option>
+                      <option value="directorGeneralOfPolice">
+                        Director-General of Police (DGP)
+                      </option>
+                    </select>
+                  </label>
+                  <label>
+                    ID No.
+                    <input
+                      type="text"
+                      name="idNo"
+                      onChange={handleIdNumberChange}
+                    />
+                  </label>
+                </>
+              )}
+               <button className={Styles.submitBtn} type="submit">
+                Submit
+              </button>
+            </div>
+          </form>
+        ) : (
+          <ConnectButton />
+        )}
+      </div>
     </div>
   );
 };
