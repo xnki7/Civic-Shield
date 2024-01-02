@@ -160,7 +160,7 @@ function App() {
             </WagmiConfig>
           }
         />
-        <Route path="/statebulletin" element={<StateBulletin contractProfileManager={contractProfileManager} accountAddress={accountAddress}/>}/>
+        <Route path="/statebulletin" element={<StateBulletin contractProfileManager={contractProfileManager} accountAddress={accountAddress} contractAnnouncement={contractAnnouncement}/>}/>
       </Routes>
     </div>
   );

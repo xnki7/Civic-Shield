@@ -2,7 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import AnnouncementForm from "./AnnouncementForm";
 
-const StateBulletin = ({ contractProfileManager, accountAddress }) => {
+const StateBulletin = ({
+  contractProfileManager,
+  accountAddress,
+  contractAnnouncement,
+}) => {
   const [profile, setProfile] = useState("");
   const [toggle, setToggle] = useState(false);
   const getUserProfile = async () => {
@@ -29,7 +33,15 @@ const StateBulletin = ({ contractProfileManager, accountAddress }) => {
       >
         Create Announcement
       </button>
-      {toggle ? <AnnouncementForm setToggle={setToggle} /> : <></>}
+      {toggle ? (
+        <AnnouncementForm
+          profile={profile}
+          setToggle={setToggle}
+          contractAnnouncement={contractAnnouncement}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

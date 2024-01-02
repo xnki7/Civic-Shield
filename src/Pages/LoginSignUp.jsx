@@ -82,9 +82,9 @@ const LoginSignUp = ({
           formData,
           {
             headers: {
-              pinata_api_key: "370bbf2277c5335106ec",
+              pinata_api_key: "0b0a6943fbb0f894d636",
               pinata_secret_api_key:
-                "b0fd3c6405d7d0204c6a2b5d4886791e968be02ce52972363d0868c0eab26a8e",
+                "d1995551c2dbcca4cb335f681b8f149d2ffb28c14c9803ec929d09d4a8ce4caf",
             },
           }
         );
