@@ -1,9 +1,11 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Routes, Route } from "react-router-dom";
 import { ethers } from "ethers";
 import HomePage from "./Pages/HomePage";
 import LoginSignUp from "./Pages/LoginSignUp";
+import StateBulletin from "./Pages/StateBulletin";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
@@ -40,6 +42,7 @@ const wagmiConfig = createConfig({
 function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [accountAddress, setAccountAddress] = useState(null);
+  const [isProfileCreated, setIsProfileCreated] = useState(null);
   const [signer, setSigner] = useState(null);
   const [contractAnnouncement, setContractAnnouncement] = useState(null);
   const [contractToken, setContractToken] = useState(null);
@@ -132,18 +135,33 @@ function App() {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     loadBcData();
-  },[])
+  }, []);
 
   return (
     <div className="App">
-      <HomePage />
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider chains={chains}>
-          <LoginSignUp contractProfileManager={contractProfileManager}/>
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/signin"
+          element={
+            <WagmiConfig config={wagmiConfig}>
+              <RainbowKitProvider chains={chains}>
+                <LoginSignUp
+                  contractProfileManager={contractProfileManager}
+                  setAccountAddress={setAccountAddress}
+                  setIsProfileCreated={setIsProfileCreated}
+                  setIsConnected={setIsConnected}
+                  isConnected={isConnected}
+                  isProfileCreated={isProfileCreated}
+                />
+              </RainbowKitProvider>
+            </WagmiConfig>
+          }
+        />
+        <Route path="/statebulletin" element={<StateBulletin contractProfileManager={contractProfileManager} accountAddress={accountAddress}/>}/>
+      </Routes>
     </div>
   );
 }

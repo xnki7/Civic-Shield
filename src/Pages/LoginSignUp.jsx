@@ -1,15 +1,42 @@
 import React from "react";
 import { useState } from "react";
+import { useAccount } from "wagmi";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-const LoginSignUp = ({ contractProfileManager }) => {
+const LoginSignUp = ({
+  contractProfileManager,
+  setAccountAddress,
+  setIsProfileCreated,
+  setIsConnected,
+  isConnected,
+  isProfileCreated,
+}) => {
   const [role, setRole] = useState("");
   const [image, setImage] = useState(null);
   const [district, setDistrict] = useState("");
   const [designation, setDesignation] = useState("");
   const [fullName, setFullName] = useState("");
   const [idNumber, setIdNumber] = useState("");
+
+  const navigate = useNavigate();
+  const account = useAccount({
+    onConnect({ address }) {
+      setIsConnected(true);
+      setAccountAddress(address);
+      getIsProfileCreated(address);
+      console.log("Connected", { address });
+    },
+  });
+
+  const getIsProfileCreated = async (address) => {
+    const tx = await contractProfileManager.profileExists(address);
+    setIsProfileCreated(tx);
+    if (tx === true) {
+      navigate("/statebulletin");
+    }
+  };
 
   const handleRoleChange = (e) => {
     setRole(e.target.value);
@@ -64,7 +91,7 @@ const LoginSignUp = ({ contractProfileManager }) => {
 
         imageCID = imageUploadResponse.data.IpfsHash;
       }
-      
+
       const tx = await contractProfileManager.createProfile(
         fullName,
         idNumber,
@@ -129,116 +156,127 @@ const LoginSignUp = ({ contractProfileManager }) => {
 
   return (
     <div className="LoginSignUp">
-      <ConnectButton />
-      <form onSubmit={handleFormSubmit}>
-        <label>
-          Profile Picture:
-          <input
-            type="file"
-            name="profilePicture"
-            accept="image/*"
-            onChange={handleImageUpload}
-          />
-        </label>
-        <label>
-          Full Name:
-          <input type="text" name="fullName" onChange={handleFullNameChange} />
-        </label>
-        <label>
-          Role:
-          <select name="role" onChange={handleRoleChange}>
-            <option value="">Select a role</option>
-            <option value="stateGovernment">State Government</option>
-            <option value="civilian">Civilian</option>
-            <option value="policeStation">District's Police Station</option>
-            <option value="policeOfficial">Police Official</option>
-          </select>
-        </label>
-        {role === "civilian" && (
-          <>
-            <label>
-              Aadhar ID:
-              <input
-                type="text"
-                name="aadharId"
-                onChange={handleIdNumberChange}
-              />
-            </label>
-            <label>
-              District:
-              <select name="district" onChange={handleDistrictChange}>
-                <option value="">Select a District</option>
-                <option value="District1">District 1</option>
-                <option value="District2">District 2</option>
-              </select>
-            </label>
-          </>
-        )}
-        {(role === "policeStation" || role === "policeOfficial") && (
-          <>
-            <label>
-              District:
-              <select name="district" onChange={handleDesignationChange}>
-                <option value="">Select a District</option>
-                <option value="District1">District 1</option>
-                <option value="District2">District 2</option>
-              </select>
-            </label>
-          </>
-        )}
-        {role === "policeStation" && (
+      {isProfileCreated == false && isConnected ? (
+        <form onSubmit={handleFormSubmit}>
           <label>
-            Station Name:
-            <input type="text" name="stationName" />
+            Profile Picture:
+            <input
+              type="file"
+              name="profilePicture"
+              accept="image/*"
+              onChange={handleImageUpload}
+            />
           </label>
-        )}
-        {role === "policeOfficial" && (
-          <>
+          <label>
+            Full Name:
+            <input
+              type="text"
+              name="fullName"
+              onChange={handleFullNameChange}
+            />
+          </label>
+          <label>
+            Role:
+            <select name="role" onChange={handleRoleChange}>
+              <option value="">Select a role</option>
+              <option value="stateGovernment">State Government</option>
+              <option value="civilian">Civilian</option>
+              <option value="policeStation">District's Police Station</option>
+              <option value="policeOfficial">Police Official</option>
+            </select>
+          </label>
+          {role === "civilian" && (
+            <>
+              <label>
+                Aadhar ID:
+                <input
+                  type="text"
+                  name="aadharId"
+                  onChange={handleIdNumberChange}
+                />
+              </label>
+              <label>
+                District:
+                <select name="district" onChange={handleDistrictChange}>
+                  <option value="">Select a District</option>
+                  <option value="District1">District 1</option>
+                  <option value="District2">District 2</option>
+                </select>
+              </label>
+            </>
+          )}
+          {(role === "policeStation" || role === "policeOfficial") && (
+            <>
+              <label>
+                District:
+                <select name="district" onChange={handleDesignationChange}>
+                  <option value="">Select a District</option>
+                  <option value="District1">District 1</option>
+                  <option value="District2">District 2</option>
+                </select>
+              </label>
+            </>
+          )}
+          {role === "policeStation" && (
             <label>
-              Official's Designation:
-              <select name="designation" onChange={handleDesignationChange}>
-                <option value="">Select Designation</option>
-                <option value="constable">Constable</option>
-                <option value="headConstable">Head Constable</option>
-                <option value="assistantSubInspector">
-                  Assistant Sub-Inspector
-                </option>
-                <option value="subInspector">Sub-Inspector</option>
-                <option value="inspector">Inspector</option>
-                <option value="deputySuperintendentOfPolice">
-                  Deputy Superintendent of Police (Dy. SP)
-                </option>
-                <option value="additionalSuperintendentOfPolice">
-                  Additional Superintendent of Police
-                </option>
-                <option value="superintendentOfPolice">
-                  Superintendent of Police
-                </option>
-                <option value="seniorSuperintendentOfPolice">
-                  Senior Superintendent of Police
-                </option>
-                <option value="deputyInspectorGeneralOfPolice">
-                  Deputy Inspector General of Police
-                </option>
-                <option value="inspectorGeneralOfPolice">
-                  Inspector-General of Police (IGP)
-                </option>
-                <option value="additionalDirectorGeneralOfPolice">
-                  Additional Director General of Police (ADG)
-                </option>
-                <option value="directorGeneralOfPolice">
-                  Director-General of Police (DGP)
-                </option>
-              </select>
+              Station Name:
+              <input type="text" name="stationName" />
             </label>
-            <label>
-              ID No.
-              <input type="text" name="idNo" onChange={handleIdNumberChange} />
-            </label>
-          </>
-        )}
-        <button type="submit">Submit</button>
-      </form>
+          )}
+          {role === "policeOfficial" && (
+            <>
+              <label>
+                Official's Designation:
+                <select name="designation" onChange={handleDesignationChange}>
+                  <option value="">Select Designation</option>
+                  <option value="constable">Constable</option>
+                  <option value="headConstable">Head Constable</option>
+                  <option value="assistantSubInspector">
+                    Assistant Sub-Inspector
+                  </option>
+                  <option value="subInspector">Sub-Inspector</option>
+                  <option value="inspector">Inspector</option>
+                  <option value="deputySuperintendentOfPolice">
+                    Deputy Superintendent of Police (Dy. SP)
+                  </option>
+                  <option value="additionalSuperintendentOfPolice">
+                    Additional Superintendent of Police
+                  </option>
+                  <option value="superintendentOfPolice">
+                    Superintendent of Police
+                  </option>
+                  <option value="seniorSuperintendentOfPolice">
+                    Senior Superintendent of Police
+                  </option>
+                  <option value="deputyInspectorGeneralOfPolice">
+                    Deputy Inspector General of Police
+                  </option>
+                  <option value="inspectorGeneralOfPolice">
+                    Inspector-General of Police (IGP)
+                  </option>
+                  <option value="additionalDirectorGeneralOfPolice">
+                    Additional Director General of Police (ADG)
+                  </option>
+                  <option value="directorGeneralOfPolice">
+                    Director-General of Police (DGP)
+                  </option>
+                </select>
+              </label>
+              <label>
+                ID No.
+                <input
+                  type="text"
+                  name="idNo"
+                  onChange={handleIdNumberChange}
+                />
+              </label>
+            </>
+          )}
+          <button type="submit">Submit</button>
+        </form>
+      ) : (
+        <ConnectButton />
+      )}
     </div>
   );
 };

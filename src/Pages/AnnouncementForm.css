@@ -1,0 +1,15 @@
+.AnnouncementForm {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    border: solid 1px#999999;
+    max-height: 95vh;
+  }
+  

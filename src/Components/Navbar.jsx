@@ -1,10 +1,11 @@
-
-import { useState } from 'react';
-import logo from './logo.svg';
-import { IoMdMenu } from 'react-icons/io';
-import { IoCloseSharp } from 'react-icons/io5';
+import { useState } from "react";
+import logo from "./logo.svg";
+import { IoMdMenu } from "react-icons/io";
+import { IoCloseSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [menu, setMenu] = useState(false);
 
   return (
@@ -21,7 +22,12 @@ const Navbar = () => {
             <h1>About</h1>
           </div>
 
-          <button className="hidden md:block bg-transparent text-white border border-white rounded-full px-4 py-2 hover:bg-white hover:text-black mr-2">
+          <button
+            className="hidden md:block bg-transparent text-white border border-white rounded-full px-4 py-2 hover:bg-white hover:text-black mr-2"
+            onClick={() => {
+              navigate("/signin");
+            }}
+          >
             Login | Sign Up
           </button>
 
@@ -54,5 +60,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
