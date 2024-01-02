@@ -24,6 +24,13 @@
 
 }
 
+@media screen and (min-width:1100px) and (max-width:1467.5px) {
+    .featureBtn{
+        /* width: ; */
+        background: #000;
+    }
+}
+
 @media screen  and (max-width:550px){
     .featureBtn{
         width: 100%;
@@ -34,3 +41,4 @@
 
     }
 }
+

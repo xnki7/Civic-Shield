@@ -1,15 +1,17 @@
 import React from 'react'
 import Styles from './Features_footer.module.css';
+import Card from './Card' 
 
 const Features_footer = () => {
   return (
     <div className={Styles.featureFooter} >
-        <button className={Styles.featureBtn} >Announcements</button>
-        <button className={Styles.featureBtn} >something XYZ </button>
-        <button className={Styles.featureBtn} >Talk to us </button>
+        {/* <button className={Styles.featureBtn} >Announcements</button>
         <button className={Styles.featureBtn} >Lodge an FIR </button>
-        <button className={Styles.featureBtn} >Mint an NFT </button>
-        <button className={Styles.featureBtn} >Give a tip </button>
+        <button className={Styles.featureBtn} >Mint an NFT </button> */}
+        <Card name={'Announcements'} />
+        <Card name={'Lodge an FIR'} />
+        <Card name={'Mint an NFT'} />
+        
     </div>
   )
 }
