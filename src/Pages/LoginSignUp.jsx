@@ -199,10 +199,10 @@ const LoginSignUp = ({
              
             </div>
 
-            <div className="flex flex-col w-[40%] ">
+            <div className={Styles.formRight}>
               <label className="text-[white]" >
  
-                <input className="text-[white] bg-[#020B2D] border-b-2 my-5 w-[70%]"  placeholder="Full Name"
+                <input className="text-[white] bg-[#020B2D] border-b-2  my-5 p-[2px]  w-[70%]"  placeholder="Full Name"
                   type="text"
                   name="fullName"
                   onChange={handleFullNameChange}
@@ -225,15 +225,15 @@ const LoginSignUp = ({
                 <>
                   <label>
                     
-                    <input className="border-b-2 bg-[#020B2D] my-5 w-[70%] " placeholder="Adhaar ID"
+                    <input className="border-b-2 bg-[#020B2D] my-5 w-[70%] p-[2px] text-[white] " placeholder="Adhaar ID"
                       type="text"
                       name="aadharId"
                       onChange={handleIdNumberChange}
                     />
                   </label>
-                  <label>
+                  <label  >
                     District:
-                    <select name="district" onChange={handleDistrictChange}>
+                    <select className="bg-[#D9D9D9] rounded-lg ml-3 p-1 w-[56%]" name="district" onChange={handleDistrictChange}>
                       <option value="">Select a District</option>
                       <option value="District1">District 1</option>
                       <option value="District2">District 2</option>
@@ -245,7 +245,7 @@ const LoginSignUp = ({
                 <>
                   <label>
                     District:
-                    <select name="district" onChange={handleDesignationChange}>
+                    <select className="bg-[#D9D9D9] rounded-lg ml-3 p-1 my-[52px] w-[56%]" name="district" onChange={handleDesignationChange}>
                       <option value="">Select a District</option>
                       <option value="District1">District 1</option>
                       <option value="District2">District 2</option>
@@ -255,19 +255,19 @@ const LoginSignUp = ({
               )}
               {role === "policeStation" && (
                 <label>
-                  Station Name:
-                  <input type="text" name="stationName" />
+                  
+                  <input placeholder="Station Name" className="text-[white] bg-[#020B2D] p-[2px] border-b-2 mb-3 w-[70%]" type="text" name="stationName" />
                 </label>
               )}
               {role === "policeOfficial" && (
                 <>
                   <label>
-                    Official's Designation:
-                    <select
+                   
+                    <select className="bg-[#D9D9D9] rounded-lg mb-5 ml-3 p-1 w-[68.5%]"
                       name="designation"
                       onChange={handleDesignationChange}
                     >
-                      <option value="">Select Designation</option>
+                      <option value="">Select Official's Designation</option>
                       <option value="constable">Constable</option>
                       <option value="headConstable">Head Constable</option>
                       <option value="assistantSubInspector">
@@ -302,8 +302,9 @@ const LoginSignUp = ({
                     </select>
                   </label>
                   <label>
-                    ID No.
-                    <input
+                    
+                    <input className="text-[white] bg-[#020B2D] p-[2px] border-b-2 my-2 w-[70%]"
+                    placeholder="ID No."
                       type="text"
                       name="idNo"
                       onChange={handleIdNumberChange}
