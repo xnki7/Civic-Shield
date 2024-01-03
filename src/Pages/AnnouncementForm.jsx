@@ -12,6 +12,7 @@ const AnnouncementForm = ({ profile, setToggle, contractAnnouncement }) => {
     selectedDistrict: null, // District 1 or District 2
     targetAudience: "", // Police or Public
   });
+  const [imgshow, setimgshow] = useState(null);
 
   useEffect(() => {
     console.log(profile);
@@ -33,6 +34,8 @@ const AnnouncementForm = ({ profile, setToggle, contractAnnouncement }) => {
       ...announcement,
       image: event.target.files[0],
     });
+    const imageUrl = URL.createObjectURL(event.target.files[0]);
+    setimgshow(imageUrl);
   };
 
   const handleSubmit = async (event) => {
@@ -119,15 +122,40 @@ const AnnouncementForm = ({ profile, setToggle, contractAnnouncement }) => {
   };
 
   return (
-    <div className="AnnouncementForm">
+    <div className="AnnouncementForm min-h-[70%] w-[37%]  rounded-lg p-[10px] ">
+      <div className="overlay"></div>
       {contractAnnouncement ? (
+
         <>
-          <IoCloseSharp onClick={() => setToggle(false)} />
-          <h1>Create an Announcement</h1>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="title">Title:</label>
-              <input
+          <IoCloseSharp className="absolute left-[92%] text-[25px] " onClick={() => setToggle(false)} />
+          <h1 className="text-[1.2rem] text-black font-semibold ml-[25%] " >Create an Announcement</h1>
+          <form className="flex flex-col gap-[30px] pt-4  " onSubmit={handleSubmit}>
+            <div className=" m-auto " >
+              <label htmlFor="image">Upload Image:</label>
+ 
+             <div  >
+               {
+                imgshow?
+                <div>
+                <input className=""
+                type="file"
+                id="image"
+                name="image"
+                onChange={handleFileChange}
+              />
+                </div>
+                :<input className=""
+                type="file"
+                id="image"
+                name="image"
+                onChange={handleFileChange}
+              />
+               }
+             </div>
+            </div>
+            <div className="w-[70%] m-auto " >
+              <label className="font-semibold" htmlFor="title">Title :</label>
+              <input className=" ml-2 w-[84%] border-b-2 border-solid border-[black] "
                 type="text"
                 id="title"
                 name="title"
@@ -136,9 +164,9 @@ const AnnouncementForm = ({ profile, setToggle, contractAnnouncement }) => {
                 required
               />
             </div>
-            <div>
-              <label htmlFor="description">Description:</label>
-              <textarea
+            <div className="w-[70%] m-auto " >
+              <label className="font-semibold  " htmlFor="description">Description :</label>
+              <textarea className="ml-1 w-[70%] border-b-2 border-solid border-[black] border "
                 id="description"
                 name="description"
                 value={announcement.description}
@@ -146,32 +174,21 @@ const AnnouncementForm = ({ profile, setToggle, contractAnnouncement }) => {
                 required
               />
             </div>
-            <div>
-              <label htmlFor="image">Upload Image:</label>
-              <input
-                type="file"
-                id="image"
-                name="image"
-                onChange={handleFileChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="targetType">Announcement For:</label>
-              <select
+            <div className="w-[70%] m-auto " >
+              <select className="ml-2 w-[97%] border-1 p-1 border-solid border-[black] "
                 id="targetType"
                 name="targetType"
                 value={announcement.targetType}
                 onChange={handleInputChange}
               >
-                <option value="">Select Target Type</option>
+                <option value="">Announcement For </option>
                 <option value="state">State</option>
                 <option value="district">District</option>
               </select>
             </div>
             {announcement.targetType === "district" && (
-              <div>
-                <label htmlFor="selectedDistrict">Select District:</label>
-                <select
+              <div className="w-[70%] m-auto " >
+                <select className="ml-2 w-[97%] border-1 p-1 border-solid border-[black] "
                   id="selectedDistrict"
                   name="selectedDistrict"
                   value={announcement.selectedDistrict}
@@ -208,7 +225,7 @@ const AnnouncementForm = ({ profile, setToggle, contractAnnouncement }) => {
               </select>
             </div>
 
-            <button type="submit">Submit Announcement</button>
+            <button className="bg-[#020B2D] w-[20%] m-auto text-[white]  py-1 rounded-xl  " type="submit">Create</button>
           </form>
         </>
       ) : (
