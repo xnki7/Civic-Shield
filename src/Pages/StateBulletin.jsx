@@ -1,15 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import AnnouncementForm from "./AnnouncementForm";
 import Navbar from "../Components/Navbar";
 import AnnouncementCard from "../Components/AnnouncementCard";
-import axios from "axios";
 
 const StateBulletin = ({
   contractProfileManager,
   accountAddress,
   contractAnnouncement,
 }) => {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState("");
   const [toggle, setToggle] = useState(false);
   const [statePublicAnnouncements, setStatePublicAnnouncements] = useState([]);
@@ -50,6 +51,27 @@ const StateBulletin = ({
         }}
       >
         Create Announcement
+      </button>
+      <button
+        onClick={() => {
+          navigate("/statePoliceBulletin");
+        }}
+      >
+        State Police Bulletin
+      </button>
+      <button
+        onClick={() => {
+          navigate("/districtPublicBulletin");
+        }}
+      >
+        District Public Bulletin
+      </button>
+      <button
+        onClick={() => {
+          navigate("/districtPoliceBulletin");
+        }}
+      >
+        District Police Bulletin
       </button>
       {toggle ? (
         <AnnouncementForm

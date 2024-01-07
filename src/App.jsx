@@ -3,9 +3,6 @@ import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route } from "react-router-dom";
 import { ethers } from "ethers";
-import HomePage from "./Pages/HomePage";
-import LoginSignUp from "./Pages/LoginSignUp";
-import StateBulletin from "./Pages/StateBulletin";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
@@ -21,6 +18,12 @@ import {
 } from "./Constants/Announcement";
 import { contractAddressFIR, contractAbiFIR } from "./Constants/FIR";
 import { contractAddressToken, contractAbiToken } from "./Constants/Token";
+import HomePage from "./Pages/HomePage";
+import LoginSignUp from "./Pages/LoginSignUp";
+import StateBulletin from "./Pages/StateBulletin";
+import StatePoliceBulletin from "./Pages/StatePoliceBulletin";
+import DistrictPublicBulletin from "./Pages/DistrictPublicBulletin";
+import DistrictPoliceBulletin from "./Pages/DistrictPoliceBulletin";
 
 const { chains, publicClient } = configureChains(
   [polygonMumbai],
@@ -160,7 +163,46 @@ function App() {
             </WagmiConfig>
           }
         />
-        <Route path="/statebulletin" element={<StateBulletin contractProfileManager={contractProfileManager} accountAddress={accountAddress} contractAnnouncement={contractAnnouncement}/>}/>
+        <Route
+          path="/statebulletin"
+          element={
+            <StateBulletin
+              contractProfileManager={contractProfileManager}
+              accountAddress={accountAddress}
+              contractAnnouncement={contractAnnouncement}
+            />
+          }
+        />
+        <Route
+          path="/statePoliceBulletin"
+          element={
+            <StatePoliceBulletin
+              contractProfileManager={contractProfileManager}
+              accountAddress={accountAddress}
+              contractAnnouncement={contractAnnouncement}
+            />
+          }
+        />
+        <Route
+          path="/districtPublicBulletin"
+          element={
+            <DistrictPublicBulletin
+              contractProfileManager={contractProfileManager}
+              accountAddress={accountAddress}
+              contractAnnouncement={contractAnnouncement}
+            />
+          }
+        />
+        <Route
+          path="/districtPoliceBulletin"
+          element={
+            <DistrictPoliceBulletin
+              contractProfileManager={contractProfileManager}
+              accountAddress={accountAddress}
+              contractAnnouncement={contractAnnouncement}
+            />
+          }
+        />
       </Routes>
     </div>
   );
